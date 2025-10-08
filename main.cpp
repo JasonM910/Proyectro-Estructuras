@@ -176,8 +176,7 @@ void menuCategorias() {
         cout << "4. Buscar categoria\n";
         cout << "5. Mostrar categorias\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1: {
@@ -257,8 +256,7 @@ void menuEventos() {
         cout << "4. Buscar evento\n";
         cout << "5. Mostrar eventos\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1: {
@@ -368,8 +366,7 @@ void menuParticipantes() {
         cout << "4. Buscar participante\n";
         cout << "5. Mostrar participantes\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1: {
@@ -446,8 +443,7 @@ void menuOrganizadores() {
         cout << "4. Buscar organizador\n";
         cout << "5. Mostrar organizadores\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1: {
@@ -521,8 +517,7 @@ void menuRecursos() {
         cout << "4. Buscar recurso\n";
         cout << "5. Mostrar recursos\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1: {
@@ -693,8 +688,7 @@ void modificarInscripcion() {
     cout << "2. Cambiar evento\n";
     cout << "3. Cambiar fecha y evento\n";
     cout << "0. Cancelar\n";
-    cout << "Seleccione una opcion: ";
-    int opcionCambio = leerEntero();
+    int opcionCambio = leerOpcion(0, 3);
     if (opcionCambio == 0) {
         cout << "No se realizaron cambios.\n";
         return;
@@ -814,8 +808,7 @@ void menuInscripciones() {
         cout << "4. Mostrar participantes de un evento\n";
         cout << "5. Buscar inscripcion por ID\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1:
@@ -972,8 +965,7 @@ void menuOrganizadoresEvento() {
         cout << "4. Mostrar organizadores de un evento\n";
         cout << "5. Buscar organizador en un evento\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1:
@@ -1130,8 +1122,7 @@ void menuRecursosEvento() {
         cout << "4. Mostrar recursos de un evento\n";
         cout << "5. Buscar recurso en un evento\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 5);
 
         switch (opcion) {
             case 1:
@@ -1173,8 +1164,7 @@ void menuConsultas() {
         cout << "8. Organizador con eventos en mas categorias\n";
         cout << "9. Porcentaje de participacion estudiantil\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 9);
 
         switch (opcion) {
             case 1:
@@ -1226,8 +1216,7 @@ void menuReportes() {
         cout << "7. Historial de inscripciones ordenado\n";
         cout << "8. Organizadores sin eventos\n";
         cout << "0. Volver\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 8);
 
         switch (opcion) {
             case 1:
@@ -1292,8 +1281,7 @@ int main() {
         cout << "9. Consultas\n";
         cout << "10. Reportes\n";
         cout << "0. Salir\n";
-        cout << "Seleccione una opcion: ";
-        int opcion = leerEntero();
+        int opcion = leerOpcion(0, 10);
 
         switch (opcion) {
             case 1:

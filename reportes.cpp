@@ -71,7 +71,29 @@ inline void reporteEventosPorCategoria(NodoCategoria *categoria) {
     bool alguno = false;
     while (actual != nullptr) {
         if (actual->categoria == categoria) {
-            mostrarEventoDetallado(actual);
+            cout << "- [" << actual->id << "] " << actual->nombre
+                 << " | Fecha: " << actual->fecha.aTexto()
+                 << " | Tipo: " << actual->tipo
+                 << " | Lugar: " << actual->lugar << "\n";
+
+            cout << "  Organizadores: ";
+            EnlaceEventoOrganizador *org = actual->organizadores;
+            if (org == nullptr) {
+                cout << "No hay organizadores asignados.\n";
+            } else {
+                bool primero = true;
+                while (org != nullptr) {
+                    if (org->organizador != nullptr) {
+                        if (!primero) {
+                            cout << ", ";
+                        }
+                        cout << org->organizador->nombre;
+                        primero = false;
+                    }
+                    org = org->siguiente;
+                }
+                cout << "\n";
+            }
             alguno = true;
         }
         actual = actual->siguiente;

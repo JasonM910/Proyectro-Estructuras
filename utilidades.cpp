@@ -38,6 +38,18 @@ inline Fecha leerFecha(const string &mensaje) {
     }
 }
 
+inline int leerOpcion(int minimo, int maximo) {
+    while (true) {
+        cout << "Seleccione una opcion: ";
+        int opcion = leerEntero();
+        if (opcion >= minimo && opcion <= maximo) {
+            return opcion;
+        }
+        cout << "Opcion fuera de rango. Ingrese un numero entre "
+             << minimo << " y " << maximo << ".\n";
+    }
+}
+
 inline void pausar() {
     cout << "\nPresione ENTER para continuar...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
