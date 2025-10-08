@@ -50,64 +50,96 @@ int main();
 
 // Carga los datos base solicitados por el diagrama del avance.
 void cargarDatosIniciales() {
-    NodoCategoria *catAcademico = insertarCategoria("CAT01", "Academico", "Charlas y conferencias");
-    NodoCategoria *catCultural = insertarCategoria("CAT02", "Cultural", "Ferias y presentaciones");
-    NodoCategoria *catDeportivo = insertarCategoria("CAT03", "Deportivo", "Actividades fisicas");
+    // ===== CATEGORÍAS =====
+    NodoCategoria *catAcademico = insertarCategoria("C01", "Académico", "Eventos relacionados con la educación, congresos, conferencias y seminarios.");
+    NodoCategoria *catCultural = insertarCategoria("C02", "Cultural", "Incluye actividades artísticas, conciertos, festivales, exposiciones y obras de teatro.");
+    NodoCategoria *catDeportivo = insertarCategoria("C03", "Deportivo", "Competiciones, torneos, maratones y actividades físicas organizadas.");
+    NodoCategoria *catTecnologico = insertarCategoria("C04", "Tecnológico", "Eventos de innovación, ferias tecnológicas, lanzamientos de productos y hackathons.");
+    NodoCategoria *catGastronomico = insertarCategoria("C05", "Gastronómico", "Festivales de comida, ferias culinarias y actividades relacionadas con la gastronomía.");
 
-    NodoParticipante *p1 = insertarParticipante("P001", "Laura", "Gomez", "Ingenieria");
-    NodoParticipante *p2 = insertarParticipante("P002", "Carlos", "Ramirez", "Medicina");
-    NodoParticipante *p3 = insertarParticipante("P003", "Ana", "Martinez", "Derecho");
-    NodoParticipante *p4 = insertarParticipante("P004", "Jose", "Pineda", "Arquitectura");
-    NodoParticipante *p5 = insertarParticipante("P005", "Maria", "Sanchez", "Psicologia");
+    // ===== ORGANIZADORES =====
+    NodoOrganizador *o1 = insertarOrganizador("O01", "Luis Herrera", "Departamento de Ingeniería");
+    NodoOrganizador *o2 = insertarOrganizador("O02", "Marta Solís", "Departamento de Artes");
+    NodoOrganizador *o3 = insertarOrganizador("O03", "Ricardo Pérez", "Departamento de Deportes");
+    NodoOrganizador *o4 = insertarOrganizador("O04", "Elena Vargas", "Departamento de Gastronomía");
 
-    NodoOrganizador *o1 = insertarOrganizador("O001", "Dra. Paula Herrera", "Decanato Academico");
-    NodoOrganizador *o2 = insertarOrganizador("O002", "Ing. Mario Lopez", "Departamento de Sistemas");
-    NodoOrganizador *o3 = insertarOrganizador("O003", "Lic. Sofia Torres", "Bienestar Universitario");
+    // ===== RECURSOS =====
+    NodoRecurso *r1 = insertarRecurso("R01", "Proyector Epson", "Proyector HD para presentaciones en aulas y auditorios");
+    NodoRecurso *r2 = insertarRecurso("R02", "Sala Magna", "Espacio con capacidad para 500 personas, sonido e iluminación");
+    NodoRecurso *r3 = insertarRecurso("R03", "Kit de Materiales", "Carpetas, hojas, bolígrafos y credenciales para los asistentes");
+    NodoRecurso *r4 = insertarRecurso("R04", "Escenario Móvil", "Estructura para conciertos y presentaciones al aire libre");
+    NodoRecurso *r5 = insertarRecurso("R05", "Equipo de Sonido", "Parlantes, micrófonos y consola de audio profesional");
 
-    NodoRecurso *r1 = insertarRecurso("R001", "Proyector Epson", "HDMI y VGA");
-    NodoRecurso *r2 = insertarRecurso("R002", "Sala Magna", "Capacidad 200 personas");
-    NodoRecurso *r3 = insertarRecurso("R003", "Kit de Robotica", "Componentes electronicos");
+    // ===== FECHAS =====
+    Fecha fE01{2025, 2, 10};
+    Fecha fE02{2025, 3, 5};
+    Fecha fE03{2025, 4, 22};
+    Fecha fE04{2025, 6, 15};
+    Fecha fE05{2025, 8, 30};
 
-    Fecha f1{2025, 5, 10};
-    Fecha f2{2025, 5, 15};
-    Fecha f3{2025, 6, 1};
-    Fecha f4{2025, 6, 5};
-    Fecha f5{2025, 6, 20};
+    // ===== EVENTOS =====
+    NodoEvento *e1 = insertarEventoOrdenado("E01", "Conferencia IoT", fE01, "Académico", "Auditorio UCR", catTecnologico);
+    NodoEvento *e2 = insertarEventoOrdenado("E02", "Concierto Sinfónico", fE02, "Cultural", "Teatro Nacional", catCultural);
+    NodoEvento *e3 = insertarEventoOrdenado("E03", "Feria Tecnológica", fE03, "Exposición", "Centro de Convenciones", catTecnologico);
+    NodoEvento *e4 = insertarEventoOrdenado("E04", "Maratón San José", fE04, "Deportivo", "Parque Metropolitano La Sabana", catDeportivo);
+    NodoEvento *e5 = insertarEventoOrdenado("E05", "Festival Gastronómico", fE05, "Cultural", "Boulevard de Escazú", catGastronomico);
 
-    NodoEvento *e1 = insertarEventoOrdenado("E001", "Charla de Innovacion", f1, "charla", "Auditorio Central", catAcademico);
-    NodoEvento *e2 = insertarEventoOrdenado("E002", "Feria Cultural", f2, "feria", "Plaza Central", catCultural);
-    NodoEvento *e3 = insertarEventoOrdenado("E003", "Taller de Programacion", f3, "taller", "Laboratorio 3", catAcademico);
-    NodoEvento *e4 = insertarEventoOrdenado("E004", "Encuentro Deportivo", f4, "competencia", "Gimnasio", catDeportivo);
-    NodoEvento *e5 = insertarEventoOrdenado("E005", "Taller de Expresion Artistica", f5, "taller", "Sala de Arte", catCultural);
+    // ===== PARTICIPANTES =====
+    NodoParticipante *p1 = insertarParticipante("P01", "Ana", "Rodríguez", "Ingeniería en Computación");
+    NodoParticipante *p2 = insertarParticipante("P02", "Carlos", "Jiménez", "Artes Musicales");
+    NodoParticipante *p3 = insertarParticipante("P03", "María", "Fernández", "Educación Física");
+    NodoParticipante *p4 = insertarParticipante("P04", "José", "Martínez", "Administración de Empresas");
+    NodoParticipante *p5 = insertarParticipante("P05", "Laura", "Gómez", "Biología");
 
+    // ===== VINCULACIONES ORGANIZADOR ↔ EVENTO =====
     vincularOrganizadorConEvento(o1, e1);
-    vincularOrganizadorConEvento(o2, e3);
-    vincularOrganizadorConEvento(o3, e2);
-    vincularOrganizadorConEvento(o3, e5);
-    vincularOrganizadorConEvento(o2, e5);
-    vincularOrganizadorConEvento(o1, e4);
+    vincularOrganizadorConEvento(o1, e3);
+    vincularOrganizadorConEvento(o2, e2);
+    vincularOrganizadorConEvento(o3, e4);
+    vincularOrganizadorConEvento(o4, e5);
 
+    // ===== VINCULACIONES RECURSO ↔ EVENTO =====
     vincularRecursoConEvento(r1, e1);
-    vincularRecursoConEvento(r2, e1);
-    vincularRecursoConEvento(r3, e3);
     vincularRecursoConEvento(r2, e2);
-    vincularRecursoConEvento(r2, e4);
-    vincularRecursoConEvento(r1, e3);
+    vincularRecursoConEvento(r3, e4);
+    vincularRecursoConEvento(r4, e5);
+    vincularRecursoConEvento(r5, e3);
 
+    // ===== VINCULACIONES PARTICIPANTE ↔ EVENTO =====
     vincularParticipanteConEvento(p1, e1);
     vincularParticipanteConEvento(p1, e3);
-    vincularParticipanteConEvento(p2, e1);
-    vincularParticipanteConEvento(p2, e4);
-    vincularParticipanteConEvento(p3, e2);
-    vincularParticipanteConEvento(p3, e5);
+    vincularParticipanteConEvento(p2, e2);
+    vincularParticipanteConEvento(p2, e5);
+    vincularParticipanteConEvento(p3, e4);
+    vincularParticipanteConEvento(p4, e1);
     vincularParticipanteConEvento(p4, e4);
-    vincularParticipanteConEvento(p5, e5);
+    vincularParticipanteConEvento(p4, e5);
+    vincularParticipanteConEvento(p5, e2);
+    vincularParticipanteConEvento(p5, e3);
 
-    registrarHistorial("H001", f1, p1, e1);
-    registrarHistorial("H002", f1, p2, e1);
-    registrarHistorial("H003", f2, p3, e2);
-    registrarHistorial("H004", f3, p1, e3);
-    registrarHistorial("H005", f5, p5, e5);
+    // ===== HISTORIAL =====
+    Fecha fI01{2025, 2, 8};
+    Fecha fI02{2025, 2, 15};
+    Fecha fI03{2025, 3, 1};
+    Fecha fI04{2025, 4, 10};
+    Fecha fI05{2025, 4, 20};
+    Fecha fI06{2025, 5, 10};
+    Fecha fI07{2025, 5, 20};
+    Fecha fI08{2025, 6, 5};
+    Fecha fI09{2025, 8, 15};
+    Fecha fI10{2025, 8, 20};
+
+    // ===== REGISTRO DE HISTORIAL =====
+    registrarHistorial("I01", fI01, p1, e1);
+    registrarHistorial("I02", fI02, p1, e3);
+    registrarHistorial("I03", fI03, p2, e2);
+    registrarHistorial("I04", fI04, p5, e3);
+    registrarHistorial("I05", fI05, p5, e2);
+    registrarHistorial("I06", fI06, p4, e1);
+    registrarHistorial("I07", fI07, p3, e4);
+    registrarHistorial("I08", fI08, p4, e4);
+    registrarHistorial("I09", fI09, p4, e5);
+    registrarHistorial("I10", fI10, p2, e5);
 }
 
 // Libera de manera segura todas las listas encadenadas creadas en memoria.
