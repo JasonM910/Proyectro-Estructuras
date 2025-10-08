@@ -3,4 +3,4 @@ project(Proyecto_Estructuras)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Proyecto_Estructuras main.cpp categorias.cpp consultas.cpp estructuras.cpp eventos.cpp participantes.cpp organizadores.cpp recursos.cpp fechas.cpp reportes.cpp relaciones.cpp utilidades.cpp)
+add_executable(Proyecto_Estructuras main.cpp categorias.cpp consultas.cpp estructuras.cpp eventos.cpp participantes.cpp organizadores.cpp recursos.cpp fecha.cpp reportes.cpp relaciones.cpp utilidades.cpp)

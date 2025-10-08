@@ -1,3 +1,3 @@
-C:/Users/jason/CLionProjects/Proyecto-Estructuras/cmake-build-debug/CMakeFiles/Proyecto_Estructuras.dir
-C:/Users/jason/CLionProjects/Proyecto-Estructuras/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/jason/CLionProjects/Proyecto-Estructuras/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/jason/CLionProjects/Proyectro-Estructuras/cmake-build-debug/CMakeFiles/Proyecto_Estructuras.dir
+C:/Users/jason/CLionProjects/Proyectro-Estructuras/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/jason/CLionProjects/Proyectro-Estructuras/cmake-build-debug/CMakeFiles/rebuild_cache.dir
