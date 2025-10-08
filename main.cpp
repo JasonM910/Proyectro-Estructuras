@@ -25,9 +25,24 @@ void menuEventos();
 void menuParticipantes();
 void menuOrganizadores();
 void menuRecursos();
+void menuInscripciones();
+void menuOrganizadoresEvento();
+void menuRecursosEvento();
 void registrarInscripcion();
+void modificarInscripcion();
+void cancelarInscripcion();
+void mostrarParticipantesDeEvento();
+void buscarInscripcion();
 void asignarOrganizadorEvento();
+void reasignarOrganizadorEvento();
+void retirarOrganizadorEvento();
+void mostrarOrganizadoresEvento();
+void buscarOrganizadorEvento();
 void asignarRecursoEvento();
+void reasignarRecursoEvento();
+void retirarRecursoEvento();
+void mostrarRecursosEvento();
+void buscarRecursoEvento();
 void menuConsultas();
 void menuReportes();
 
@@ -654,6 +669,496 @@ void asignarRecursoEvento() {
     vincularRecursoConEvento(recurso, evento);
     cout << "Recurso asignado.\n";
 }
+
+void modificarInscripcion() {
+    if (cabezaHistorial == nullptr) {
+        cout << "No hay inscripciones registradas.\n";
+        return;
+    }
+    string id = leerCadena("ID de la inscripcion: ");
+    NodoHistorial *registro = buscarHistorialPorId(id);
+    if (registro == nullptr) {
+        cout << "Inscripcion no encontrada.\n";
+        return;
+    }
+    NodoParticipante *participante = registro->participante;
+    NodoEvento *eventoActual = registro->evento;
+    Fecha fechaActual = registro->fecha;
+
+    cout << "Inscripcion actual:\n";
+    cout << "- Participante: " << (participante != nullptr ? participante->nombres + " " + participante->apellidos : "Sin participante")
+         << " | Evento: " << (eventoActual != nullptr ? eventoActual->nombre : "Sin evento")
+         << " | Fecha: " << fechaActual.aTexto() << "\n";
+    cout << "1. Cambiar fecha\n";
+    cout << "2. Cambiar evento\n";
+    cout << "3. Cambiar fecha y evento\n";
+    cout << "0. Cancelar\n";
+    cout << "Seleccione una opcion: ";
+    int opcionCambio = leerEntero();
+    if (opcionCambio == 0) {
+        cout << "No se realizaron cambios.\n";
+        return;
+    }
+
+    bool cambiarFecha = opcionCambio == 1 || opcionCambio == 3;
+    bool cambiarEvento = opcionCambio == 2 || opcionCambio == 3;
+    if (!cambiarFecha && !cambiarEvento) {
+        cout << "Opcion no valida.\n";
+        return;
+    }
+
+    Fecha fechaFinal = fechaActual;
+    if (cambiarFecha) {
+        fechaFinal = leerFecha("Nueva fecha de inscripcion (AAAA-MM-DD): ");
+    }
+
+    NodoEvento *eventoFinal = eventoActual;
+    if (cambiarEvento) {
+        mostrarEventos();
+        string idEventoNuevo = leerCadena("Nuevo ID de evento: ");
+        NodoEvento *eventoNuevo = buscarEventoPorId(idEventoNuevo);
+        if (eventoNuevo == nullptr) {
+            cout << "Evento no encontrado.\n";
+            return;
+        }
+        if (eventoNuevo == eventoActual) {
+            cout << "Debe elegir un evento diferente.\n";
+            return;
+        }
+        if (participante != nullptr && participanteInscritoEnEvento(participante, eventoNuevo)) {
+            cout << "El participante ya esta inscrito en el evento destino.\n";
+            return;
+        }
+        eventoFinal = eventoNuevo;
+    }
+
+    string idRegistro = registro->id;
+    if (cambiarEvento && participante != nullptr && eventoActual != nullptr) {
+        desvincularParticipanteDeEvento(participante, eventoActual);
+        vincularParticipanteConEvento(participante, eventoFinal);
+    }
+
+    eliminarNodoHistorial(registro);
+    registrarHistorial(idRegistro, fechaFinal, participante, eventoFinal);
+    cout << "Inscripcion actualizada.\n";
+}
+
+void cancelarInscripcion() {
+    if (cabezaHistorial == nullptr) {
+        cout << "No hay inscripciones registradas.\n";
+        return;
+    }
+    string id = leerCadena("ID de la inscripcion a cancelar: ");
+    NodoHistorial *registro = buscarHistorialPorId(id);
+    if (registro == nullptr) {
+        cout << "Inscripcion no encontrada.\n";
+        return;
+    }
+    if (registro->participante != nullptr && registro->evento != nullptr) {
+        desvincularParticipanteDeEvento(registro->participante, registro->evento);
+    }
+    eliminarNodoHistorial(registro);
+    cout << "Inscripcion cancelada.\n";
+}
+
+void mostrarParticipantesDeEvento() {
+    if (cabezaEventos == nullptr) {
+        cout << "No hay eventos registrados.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    cout << "Participantes inscritos en " << evento->nombre << ":\n";
+    EnlaceEventoParticipante *enlace = evento->participantes;
+    if (enlace == nullptr) {
+        cout << "No hay participantes inscritos en este evento.\n";
+        return;
+    }
+    while (enlace != nullptr) {
+        if (enlace->participante != nullptr) {
+            cout << "- " << enlace->participante->nombres << " " << enlace->participante->apellidos
+                 << " (" << enlace->participante->id << ")\n";
+        }
+        enlace = enlace->siguiente;
+    }
+}
+
+void buscarInscripcion() {
+    if (cabezaHistorial == nullptr) {
+        cout << "No hay inscripciones registradas.\n";
+        return;
+    }
+    string id = leerCadena("ID de la inscripcion a buscar: ");
+    NodoHistorial *registro = buscarHistorialPorId(id);
+    if (registro == nullptr) {
+        cout << "Inscripcion no encontrada.\n";
+        return;
+    }
+    cout << "- ID: " << registro->id
+         << " | Fecha: " << registro->fecha.aTexto()
+         << " | Participante: " << (registro->participante != nullptr ? registro->participante->nombres + " " + registro->participante->apellidos : "Sin participante")
+         << " | Evento: " << (registro->evento != nullptr ? registro->evento->nombre : "Sin evento") << "\n";
+}
+
+void menuInscripciones() {
+    bool volver = false;
+    while (!volver) {
+        cout << "\n--- Gestion de inscripciones ---\n";
+        cout << "1. Registrar inscripcion\n";
+        cout << "2. Modificar inscripcion\n";
+        cout << "3. Cancelar inscripcion\n";
+        cout << "4. Mostrar participantes de un evento\n";
+        cout << "5. Buscar inscripcion por ID\n";
+        cout << "0. Volver\n";
+        cout << "Seleccione una opcion: ";
+        int opcion = leerEntero();
+
+        switch (opcion) {
+            case 1:
+                registrarInscripcion();
+                break;
+            case 2:
+                modificarInscripcion();
+                break;
+            case 3:
+                cancelarInscripcion();
+                break;
+            case 4:
+                mostrarParticipantesDeEvento();
+                break;
+            case 5:
+                buscarInscripcion();
+                break;
+            case 0:
+                volver = true;
+                break;
+            default:
+                cout << "Opcion no valida.\n";
+                break;
+        }
+    }
+}
+
+void reasignarOrganizadorEvento() {
+    if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
+        cout << "Debe contar con eventos y organizadores registrados.\n";
+        return;
+    }
+    string idOrganizador = leerCadena("ID del organizador: ");
+    NodoOrganizador *organizador = buscarOrganizadorPorId(idOrganizador);
+    if (organizador == nullptr) {
+        cout << "Organizador no encontrado.\n";
+        return;
+    }
+    if (organizador->eventos == nullptr) {
+        cout << "El organizador no tiene eventos asignados.\n";
+        return;
+    }
+    string idEventoActual = leerCadena("ID del evento actual: ");
+    NodoEvento *eventoActual = buscarEventoPorId(idEventoActual);
+    if (eventoActual == nullptr) {
+        cout << "Evento actual no encontrado.\n";
+        return;
+    }
+    if (!organizadorAsignadoEnEvento(organizador, eventoActual)) {
+        cout << "El organizador no esta asignado a ese evento.\n";
+        return;
+    }
+    mostrarEventos();
+    string idEventoNuevo = leerCadena("ID del nuevo evento: ");
+    NodoEvento *eventoNuevo = buscarEventoPorId(idEventoNuevo);
+    if (eventoNuevo == nullptr) {
+        cout << "Evento nuevo no encontrado.\n";
+        return;
+    }
+    if (eventoNuevo == eventoActual) {
+        cout << "Debe elegir un evento diferente.\n";
+        return;
+    }
+    if (organizadorAsignadoEnEvento(organizador, eventoNuevo)) {
+        cout << "El organizador ya esta asignado al evento destino.\n";
+        return;
+    }
+    desvincularOrganizadorDeEvento(organizador, eventoActual);
+    vincularOrganizadorConEvento(organizador, eventoNuevo);
+    cout << "Organizador reasignado.\n";
+}
+
+void retirarOrganizadorEvento() {
+    if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
+        cout << "Debe contar con eventos y organizadores registrados.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    string idOrganizador = leerCadena("ID del organizador: ");
+    NodoOrganizador *organizador = buscarOrganizadorPorId(idOrganizador);
+    if (organizador == nullptr) {
+        cout << "Organizador no encontrado.\n";
+        return;
+    }
+    if (!organizadorAsignadoEnEvento(organizador, evento)) {
+        cout << "El organizador no esta asignado a este evento.\n";
+        return;
+    }
+    desvincularOrganizadorDeEvento(organizador, evento);
+    cout << "Organizador retirado del evento.\n";
+}
+
+void mostrarOrganizadoresEvento() {
+    if (cabezaEventos == nullptr) {
+        cout << "No hay eventos registrados.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    cout << "Organizadores del evento " << evento->nombre << ":\n";
+    EnlaceEventoOrganizador *enlace = evento->organizadores;
+    if (enlace == nullptr) {
+        cout << "No hay organizadores asignados a este evento.\n";
+        return;
+    }
+    while (enlace != nullptr) {
+        if (enlace->organizador != nullptr) {
+            cout << "- " << enlace->organizador->nombre << " (" << enlace->organizador->id << ")\n";
+        }
+        enlace = enlace->siguiente;
+    }
+}
+
+void buscarOrganizadorEvento() {
+    if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
+        cout << "Debe contar con eventos y organizadores registrados.\n";
+        return;
+    }
+    string idOrganizador = leerCadena("ID del organizador: ");
+    NodoOrganizador *organizador = buscarOrganizadorPorId(idOrganizador);
+    if (organizador == nullptr) {
+        cout << "Organizador no encontrado.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    if (organizadorAsignadoEnEvento(organizador, evento)) {
+        cout << "El organizador " << organizador->nombre << " esta asignado al evento " << evento->nombre << ".\n";
+    } else {
+        cout << "El organizador " << organizador->nombre << " no esta asignado al evento indicado.\n";
+    }
+}
+
+void menuOrganizadoresEvento() {
+    bool volver = false;
+    while (!volver) {
+        cout << "\n--- Gestion de organizadores por evento ---\n";
+        cout << "1. Asignar organizador a evento\n";
+        cout << "2. Reasignar organizador a otro evento\n";
+        cout << "3. Retirar organizador de evento\n";
+        cout << "4. Mostrar organizadores de un evento\n";
+        cout << "5. Buscar organizador en un evento\n";
+        cout << "0. Volver\n";
+        cout << "Seleccione una opcion: ";
+        int opcion = leerEntero();
+
+        switch (opcion) {
+            case 1:
+                asignarOrganizadorEvento();
+                break;
+            case 2:
+                reasignarOrganizadorEvento();
+                break;
+            case 3:
+                retirarOrganizadorEvento();
+                break;
+            case 4:
+                mostrarOrganizadoresEvento();
+                break;
+            case 5:
+                buscarOrganizadorEvento();
+                break;
+            case 0:
+                volver = true;
+                break;
+            default:
+                cout << "Opcion no valida.\n";
+                break;
+        }
+    }
+}
+
+void reasignarRecursoEvento() {
+    if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
+        cout << "Debe contar con eventos y recursos registrados.\n";
+        return;
+    }
+    string idRecurso = leerCadena("ID del recurso: ");
+    NodoRecurso *recurso = buscarRecursoPorId(idRecurso);
+    if (recurso == nullptr) {
+        cout << "Recurso no encontrado.\n";
+        return;
+    }
+    if (recurso->eventos == nullptr) {
+        cout << "El recurso no esta asignado a ningun evento.\n";
+        return;
+    }
+    string idEventoActual = leerCadena("ID del evento actual: ");
+    NodoEvento *eventoActual = buscarEventoPorId(idEventoActual);
+    if (eventoActual == nullptr) {
+        cout << "Evento actual no encontrado.\n";
+        return;
+    }
+    if (!recursoAsignadoEnEvento(recurso, eventoActual)) {
+        cout << "El recurso no esta asignado a ese evento.\n";
+        return;
+    }
+    mostrarEventos();
+    string idEventoNuevo = leerCadena("ID del nuevo evento: ");
+    NodoEvento *eventoNuevo = buscarEventoPorId(idEventoNuevo);
+    if (eventoNuevo == nullptr) {
+        cout << "Evento nuevo no encontrado.\n";
+        return;
+    }
+    if (eventoNuevo == eventoActual) {
+        cout << "Debe elegir un evento diferente.\n";
+        return;
+    }
+    if (recursoAsignadoEnEvento(recurso, eventoNuevo)) {
+        cout << "El recurso ya esta asignado al evento destino.\n";
+        return;
+    }
+    desvincularRecursoDeEvento(recurso, eventoActual);
+    vincularRecursoConEvento(recurso, eventoNuevo);
+    cout << "Recurso reasignado.\n";
+}
+
+void retirarRecursoEvento() {
+    if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
+        cout << "Debe contar con eventos y recursos registrados.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    string idRecurso = leerCadena("ID del recurso: ");
+    NodoRecurso *recurso = buscarRecursoPorId(idRecurso);
+    if (recurso == nullptr) {
+        cout << "Recurso no encontrado.\n";
+        return;
+    }
+    if (!recursoAsignadoEnEvento(recurso, evento)) {
+        cout << "El recurso no esta asignado a este evento.\n";
+        return;
+    }
+    desvincularRecursoDeEvento(recurso, evento);
+    cout << "Recurso retirado del evento.\n";
+}
+
+void mostrarRecursosEvento() {
+    if (cabezaEventos == nullptr) {
+        cout << "No hay eventos registrados.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    cout << "Recursos asignados al evento " << evento->nombre << ":\n";
+    EnlaceEventoRecurso *enlace = evento->recursos;
+    if (enlace == nullptr) {
+        cout << "No se han asignado recursos a este evento.\n";
+        return;
+    }
+    while (enlace != nullptr) {
+        if (enlace->recurso != nullptr) {
+            cout << "- " << enlace->recurso->nombre << " (" << enlace->recurso->id << ") - " << enlace->recurso->descripcion << "\n";
+        }
+        enlace = enlace->siguiente;
+    }
+}
+
+void buscarRecursoEvento() {
+    if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
+        cout << "Debe contar con eventos y recursos registrados.\n";
+        return;
+    }
+    string idRecurso = leerCadena("ID del recurso: ");
+    NodoRecurso *recurso = buscarRecursoPorId(idRecurso);
+    if (recurso == nullptr) {
+        cout << "Recurso no encontrado.\n";
+        return;
+    }
+    string idEvento = leerCadena("ID del evento: ");
+    NodoEvento *evento = buscarEventoPorId(idEvento);
+    if (evento == nullptr) {
+        cout << "Evento no encontrado.\n";
+        return;
+    }
+    if (recursoAsignadoEnEvento(recurso, evento)) {
+        cout << "El recurso " << recurso->nombre << " esta asignado al evento " << evento->nombre << ".\n";
+    } else {
+        cout << "El recurso " << recurso->nombre << " no esta asignado al evento indicado.\n";
+    }
+}
+
+void menuRecursosEvento() {
+    bool volver = false;
+    while (!volver) {
+        cout << "\n--- Gestion de recursos por evento ---\n";
+        cout << "1. Asignar recurso a evento\n";
+        cout << "2. Reasignar recurso a otro evento\n";
+        cout << "3. Retirar recurso de evento\n";
+        cout << "4. Mostrar recursos de un evento\n";
+        cout << "5. Buscar recurso en un evento\n";
+        cout << "0. Volver\n";
+        cout << "Seleccione una opcion: ";
+        int opcion = leerEntero();
+
+        switch (opcion) {
+            case 1:
+                asignarRecursoEvento();
+                break;
+            case 2:
+                reasignarRecursoEvento();
+                break;
+            case 3:
+                retirarRecursoEvento();
+                break;
+            case 4:
+                mostrarRecursosEvento();
+                break;
+            case 5:
+                buscarRecursoEvento();
+                break;
+            case 0:
+                volver = true;
+                break;
+            default:
+                cout << "Opcion no valida.\n";
+                break;
+        }
+    }
+}
+
 void menuConsultas() {
     bool volver = false;
     while (!volver) {
@@ -781,9 +1286,9 @@ int main() {
         cout << "3. Gestionar participantes\n";
         cout << "4. Gestionar organizadores\n";
         cout << "5. Gestionar recursos\n";
-        cout << "6. Registrar inscripcion de participante en evento\n";
-        cout << "7. Asignar organizador a evento\n";
-        cout << "8. Asignar recurso a evento\n";
+        cout << "6. Gestionar inscripciones\n";
+        cout << "7. Gestionar organizadores por evento\n";
+        cout << "8. Gestionar recursos por evento\n";
         cout << "9. Consultas\n";
         cout << "10. Reportes\n";
         cout << "0. Salir\n";
@@ -807,13 +1312,13 @@ int main() {
                 menuRecursos();
                 break;
             case 6:
-                registrarInscripcion();
+                menuInscripciones();
                 break;
             case 7:
-                asignarOrganizadorEvento();
+                menuOrganizadoresEvento();
                 break;
             case 8:
-                asignarRecursoEvento();
+                menuRecursosEvento();
                 break;
             case 9:
                 menuConsultas();

@@ -301,4 +301,18 @@ inline void eliminarHistorialPorParticipante(NodoParticipante *participante) {
     }
 }
 
+inline NodoHistorial *buscarHistorialPorId(const string &id) {
+    if (cabezaHistorial == nullptr) {
+        return nullptr;
+    }
+    NodoHistorial *actual = cabezaHistorial;
+    do {
+        if (actual->id == id) {
+            return actual;
+        }
+        actual = actual->siguiente;
+    } while (actual != cabezaHistorial);
+    return nullptr;
+}
+
 #endif
