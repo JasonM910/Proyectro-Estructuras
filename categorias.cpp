@@ -1,4 +1,5 @@
-﻿#ifndef CATEGORIAS_CPP
+﻿// Definición de funciones y utilidades para la gestión de categorías
+#ifndef CATEGORIAS_CPP
 #define CATEGORIAS_CPP
 
 #include <iostream>
@@ -8,6 +9,7 @@
 
 using namespace std;
 
+// Busca una categoría en la lista por su ID. Devuelve un puntero a la categoría si la encuentra, o nullptr si no existe.
 inline NodoCategoria *buscarCategoriaPorId(const string &id) {
     NodoCategoria *actual = cabezaCategorias;
     while (actual != nullptr) {
@@ -22,6 +24,7 @@ inline NodoCategoria *buscarCategoriaPorId(const string &id) {
 inline NodoCategoria *insertarCategoria(const string &id,
                                         const string &nombre,
                                         const string &descripcion) {
+// Crea una nueva categoría y la inserta al final de la lista. Devuelve el puntero a la categoría creada o nullptr si ya existe el ID.
     if (buscarCategoriaPorId(id) != nullptr) {
         return nullptr;
     }
@@ -44,6 +47,7 @@ inline NodoCategoria *insertarCategoria(const string &id,
 inline void actualizarCategoria(NodoCategoria *categoria,
                                 const string &nuevoNombre,
                                 const string &nuevaDescripcion) {
+// Actualiza el nombre y/o la descripción de una categoría existente.
     if (categoria == nullptr) {
         return;
     }
@@ -55,6 +59,7 @@ inline void actualizarCategoria(NodoCategoria *categoria,
     }
 }
 
+// Verifica si una categoría tiene eventos asociados. Devuelve true si al menos un evento pertenece a la categoría.
 inline bool categoriaTieneEventos(NodoCategoria *categoria) {
     NodoEvento *evento = cabezaEventos;
     while (evento != nullptr) {
@@ -66,6 +71,7 @@ inline bool categoriaTieneEventos(NodoCategoria *categoria) {
     return false;
 }
 
+// Elimina una categoría por su ID, solo si no tiene eventos asociados. Libera la memoria del nodo eliminado.
 inline bool eliminarCategoriaPorId(const string &id) {
     NodoCategoria *anterior = nullptr;
     NodoCategoria *actual = cabezaCategorias;
@@ -88,6 +94,7 @@ inline bool eliminarCategoriaPorId(const string &id) {
     return true;
 }
 
+// Muestra en consola todas las categorías registradas en la lista.
 inline void mostrarCategorias() {
     cout << "\nCategorias registradas:\n";
     NodoCategoria *actual = cabezaCategorias;
@@ -102,4 +109,4 @@ inline void mostrarCategorias() {
     }
 }
 
-#endif
+#endif // CATEGORIAS_CPP

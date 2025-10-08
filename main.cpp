@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 
 #include "utilidades.cpp"
@@ -47,6 +47,8 @@ void menuConsultas();
 void menuReportes();
 
 int main();
+
+// Carga los datos base solicitados por el diagrama del avance.
 void cargarDatosIniciales() {
     NodoCategoria *catAcademico = insertarCategoria("CAT01", "Academico", "Charlas y conferencias");
     NodoCategoria *catCultural = insertarCategoria("CAT02", "Cultural", "Ferias y presentaciones");
@@ -107,6 +109,8 @@ void cargarDatosIniciales() {
     registrarHistorial("H004", f3, p1, e3);
     registrarHistorial("H005", f5, p5, e5);
 }
+
+// Libera de manera segura todas las listas encadenadas creadas en memoria.
 void liberarMemoria() {
     while (cabezaEventos != nullptr) {
         NodoEvento *siguiente = cabezaEventos->siguiente;
@@ -166,6 +170,8 @@ void liberarMemoria() {
         cabezaHistorial = nullptr;
     }
 }
+
+// Menu CRUD para la lista simple de categorias.
 void menuCategorias() {
     bool volver = false;
     while (!volver) {
@@ -246,6 +252,8 @@ void menuCategorias() {
         }
     }
 }
+
+// Menu CRUD para la lista de eventos ordenados por fecha.
 void menuEventos() {
     bool volver = false;
     while (!volver) {
@@ -356,6 +364,8 @@ void menuEventos() {
         }
     }
 }
+
+// Menu para administrar la lista doble de participantes.
 void menuParticipantes() {
     bool volver = false;
     while (!volver) {
@@ -433,6 +443,8 @@ void menuParticipantes() {
         }
     }
 }
+
+// Menu para administrar la lista doble de organizadores.
 void menuOrganizadores() {
     bool volver = false;
     while (!volver) {
@@ -507,6 +519,8 @@ void menuOrganizadores() {
         }
     }
 }
+
+// Menu para administrar la lista doble de recursos.
 void menuRecursos() {
     bool volver = false;
     while (!volver) {
@@ -581,6 +595,8 @@ void menuRecursos() {
         }
     }
 }
+
+// Inserta un nuevo registro en el historial y vincula participante <-> evento.
 void registrarInscripcion() {
     if (cabezaEventos == nullptr || cabezaParticipantes == nullptr) {
         cout << "Debe contar con eventos y participantes registrados.\n";
@@ -611,6 +627,7 @@ void registrarInscripcion() {
     cout << "Inscripcion registrada.\n";
 }
 
+// Asocia un organizador con un evento si no existe el enlace.
 void asignarOrganizadorEvento() {
     if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
         cout << "Debe contar con eventos y organizadores registrados.\n";
@@ -638,6 +655,7 @@ void asignarOrganizadorEvento() {
     cout << "Organizador asignado.\n";
 }
 
+// Asocia un recurso disponible a un evento concreto.
 void asignarRecursoEvento() {
     if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
         cout << "Debe contar con eventos y recursos registrados.\n";
@@ -665,6 +683,7 @@ void asignarRecursoEvento() {
     cout << "Recurso asignado.\n";
 }
 
+// Edita fecha y/o evento de una inscripcion existente.
 void modificarInscripcion() {
     if (cabezaHistorial == nullptr) {
         cout << "No hay inscripciones registradas.\n";
@@ -737,6 +756,7 @@ void modificarInscripcion() {
     cout << "Inscripcion actualizada.\n";
 }
 
+// Elimina una inscripcion puntual del historial.
 void cancelarInscripcion() {
     if (cabezaHistorial == nullptr) {
         cout << "No hay inscripciones registradas.\n";
@@ -755,6 +775,7 @@ void cancelarInscripcion() {
     cout << "Inscripcion cancelada.\n";
 }
 
+// Lista los participantes vinculados a un evento especifico.
 void mostrarParticipantesDeEvento() {
     if (cabezaEventos == nullptr) {
         cout << "No hay eventos registrados.\n";
@@ -781,6 +802,7 @@ void mostrarParticipantesDeEvento() {
     }
 }
 
+// Muestra los datos de una inscripcion buscada por ID.
 void buscarInscripcion() {
     if (cabezaHistorial == nullptr) {
         cout << "No hay inscripciones registradas.\n";
@@ -798,6 +820,7 @@ void buscarInscripcion() {
          << " | Evento: " << (registro->evento != nullptr ? registro->evento->nombre : "Sin evento") << "\n";
 }
 
+// Menu dedicado a gestionar la lista circular de inscripciones.
 void menuInscripciones() {
     bool volver = false;
     while (!volver) {
@@ -836,6 +859,7 @@ void menuInscripciones() {
     }
 }
 
+// Traslada un organizador de su evento actual a otro.
 void reasignarOrganizadorEvento() {
     if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
         cout << "Debe contar con eventos y organizadores registrados.\n";
@@ -881,6 +905,7 @@ void reasignarOrganizadorEvento() {
     cout << "Organizador reasignado.\n";
 }
 
+// Quita el vinculo entre un organizador y un evento concreto.
 void retirarOrganizadorEvento() {
     if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
         cout << "Debe contar con eventos y organizadores registrados.\n";
@@ -906,6 +931,7 @@ void retirarOrganizadorEvento() {
     cout << "Organizador retirado del evento.\n";
 }
 
+// Lista todos los organizadores asignados a un evento.
 void mostrarOrganizadoresEvento() {
     if (cabezaEventos == nullptr) {
         cout << "No hay eventos registrados.\n";
@@ -931,6 +957,7 @@ void mostrarOrganizadoresEvento() {
     }
 }
 
+// Indica si un organizador participa en un evento especifico.
 void buscarOrganizadorEvento() {
     if (cabezaEventos == nullptr || cabezaOrganizadores == nullptr) {
         cout << "Debe contar con eventos y organizadores registrados.\n";
@@ -955,6 +982,7 @@ void buscarOrganizadorEvento() {
     }
 }
 
+// Menu de utilidades para la sublista de organizadores por evento.
 void menuOrganizadoresEvento() {
     bool volver = false;
     while (!volver) {
@@ -993,6 +1021,7 @@ void menuOrganizadoresEvento() {
     }
 }
 
+// Traslada un recurso desde un evento origen hacia otro.
 void reasignarRecursoEvento() {
     if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
         cout << "Debe contar con eventos y recursos registrados.\n";
@@ -1038,6 +1067,7 @@ void reasignarRecursoEvento() {
     cout << "Recurso reasignado.\n";
 }
 
+// Elimina la relacion recurso <-> evento solicitada.
 void retirarRecursoEvento() {
     if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
         cout << "Debe contar con eventos y recursos registrados.\n";
@@ -1063,6 +1093,7 @@ void retirarRecursoEvento() {
     cout << "Recurso retirado del evento.\n";
 }
 
+// Lista los recursos asociados a un evento especifico.
 void mostrarRecursosEvento() {
     if (cabezaEventos == nullptr) {
         cout << "No hay eventos registrados.\n";
@@ -1088,6 +1119,7 @@ void mostrarRecursosEvento() {
     }
 }
 
+// Verifica si un recurso determinado esta asignado a un evento.
 void buscarRecursoEvento() {
     if (cabezaEventos == nullptr || cabezaRecursos == nullptr) {
         cout << "Debe contar con eventos y recursos registrados.\n";
@@ -1112,6 +1144,7 @@ void buscarRecursoEvento() {
     }
 }
 
+// Menu para administrar la sublista de recursos por evento.
 void menuRecursosEvento() {
     bool volver = false;
     while (!volver) {
@@ -1150,6 +1183,7 @@ void menuRecursosEvento() {
     }
 }
 
+// Menu con las consultas analiticas solicitadas en el enunciado.
 void menuConsultas() {
     bool volver = false;
     while (!volver) {
@@ -1203,6 +1237,8 @@ void menuConsultas() {
         }
     }
 }
+
+// Menu dedicado a los reportes impresos requeridos.
 void menuReportes() {
     bool volver = false;
     while (!volver) {
@@ -1265,6 +1301,8 @@ void menuReportes() {
         }
     }
 }
+
+// Funcion principal que ejecuta el menu principal y gestiona la memoria.
 int main() {
     cargarDatosIniciales();
     bool salir = false;

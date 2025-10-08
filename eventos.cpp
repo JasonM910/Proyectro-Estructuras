@@ -1,4 +1,5 @@
-﻿#ifndef EVENTOS_CPP
+﻿// Definición de funciones y utilidades para la gestión de eventos
+#ifndef EVENTOS_CPP
 #define EVENTOS_CPP
 
 #include <iostream>
@@ -8,6 +9,7 @@
 
 using namespace std;
 
+// Busca un evento en la lista por su ID. Devuelve un puntero al evento si lo encuentra, o nullptr si no existe.
 inline NodoEvento *buscarEventoPorId(const string &id) {
     NodoEvento *actual = cabezaEventos;
     while (actual != nullptr) {
@@ -19,6 +21,7 @@ inline NodoEvento *buscarEventoPorId(const string &id) {
     return nullptr;
 }
 
+// Inserta un evento en la lista enlazada de eventos, manteniendo el orden por fecha.
 inline void insertarEventoEnListaOrdenada(NodoEvento *evento) {
     if (cabezaEventos == nullptr || evento->fecha < cabezaEventos->fecha) {
         evento->siguiente = cabezaEventos;
@@ -39,6 +42,7 @@ inline NodoEvento *insertarEventoOrdenado(const string &id,
                                           const string &tipo,
                                           const string &lugar,
                                           NodoCategoria *categoria) {
+// Crea un nuevo evento y lo inserta ordenadamente en la lista. Devuelve el puntero al evento creado o nullptr si ya existe el ID o la categoría es nula.
     if (buscarEventoPorId(id) != nullptr || categoria == nullptr) {
         return nullptr;
     }
@@ -53,6 +57,7 @@ inline NodoEvento *insertarEventoOrdenado(const string &id,
     return evento;
 }
 
+// Elimina un evento de la lista enlazada de eventos, sin liberar memoria.
 inline void removerEventoDeLista(NodoEvento *evento) {
     if (cabezaEventos == nullptr || evento == nullptr) {
         return;
@@ -78,6 +83,7 @@ inline void actualizarEvento(NodoEvento *evento,
                              const string &nuevoTipo,
                              const string &nuevoLugar,
                              NodoCategoria *nuevaCategoria) {
+// Actualiza los datos de un evento existente. Si la fecha cambia, reubica el evento en la lista ordenada.
     if (evento == nullptr) {
         return;
     }
@@ -100,6 +106,7 @@ inline void actualizarEvento(NodoEvento *evento,
     }
 }
 
+// Cuenta la cantidad de participantes asociados a un evento.
 inline size_t contarParticipantesEvento(NodoEvento *evento) {
     size_t cantidad = 0;
     EnlaceEventoParticipante *actual = evento->participantes;
@@ -110,6 +117,7 @@ inline size_t contarParticipantesEvento(NodoEvento *evento) {
     return cantidad;
 }
 
+// Cuenta la cantidad de organizadores asociados a un evento.
 inline size_t contarOrganizadoresEvento(NodoEvento *evento) {
     size_t cantidad = 0;
     EnlaceEventoOrganizador *actual = evento->organizadores;
@@ -120,6 +128,7 @@ inline size_t contarOrganizadoresEvento(NodoEvento *evento) {
     return cantidad;
 }
 
+// Cuenta la cantidad de recursos asociados a un evento.
 inline size_t contarRecursosEvento(NodoEvento *evento) {
     size_t cantidad = 0;
     EnlaceEventoRecurso *actual = evento->recursos;
@@ -130,6 +139,7 @@ inline size_t contarRecursosEvento(NodoEvento *evento) {
     return cantidad;
 }
 
+// Muestra en consola la información detallada de un evento, incluyendo participantes, organizadores y recursos.
 inline void mostrarEventoDetallado(NodoEvento *evento) {
     cout << "- [" << evento->id << "] " << evento->nombre
               << " | Fecha: " << evento->fecha.aTexto()
@@ -141,6 +151,7 @@ inline void mostrarEventoDetallado(NodoEvento *evento) {
               << " | Recursos: " << contarRecursosEvento(evento) << "\n";
 }
 
+// Muestra en consola todos los eventos registrados en la lista.
 inline void mostrarEventos() {
     cout << "\nEventos registrados:\n";
     NodoEvento *actual = cabezaEventos;
@@ -154,6 +165,7 @@ inline void mostrarEventos() {
     }
 }
 
+// Elimina todos los enlaces de participantes, organizadores y recursos asociados a un evento.
 inline void eliminarEnlacesEvento(NodoEvento *evento) {
     while (evento->participantes != nullptr) {
         NodoParticipante *participante = evento->participantes->participante;
@@ -169,6 +181,7 @@ inline void eliminarEnlacesEvento(NodoEvento *evento) {
     }
 }
 
+// Elimina un evento por su ID, desvinculando todos sus enlaces y liberando memoria.
 inline bool eliminarEventoPorId(const string &id) {
     NodoEvento *objetivo = buscarEventoPorId(id);
     if (objetivo == nullptr) {
@@ -181,4 +194,4 @@ inline bool eliminarEventoPorId(const string &id) {
     return true;
 }
 
-#endif
+#endif // EVENTOS_CPP

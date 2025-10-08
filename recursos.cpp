@@ -1,4 +1,5 @@
-﻿#ifndef RECURSOS_CPP
+﻿// Definición de funciones y utilidades para la gestión de recursos
+#ifndef RECURSOS_CPP
 #define RECURSOS_CPP
 
 #include <iostream>
@@ -8,6 +9,7 @@
 
 using namespace std;
 
+// Busca un recurso en la lista por su ID. Devuelve un puntero al recurso si lo encuentra, o nullptr si no existe.
 inline NodoRecurso *buscarRecursoPorId(const string &id) {
     NodoRecurso *actual = cabezaRecursos;
     while (actual != nullptr) {
@@ -22,6 +24,7 @@ inline NodoRecurso *buscarRecursoPorId(const string &id) {
 inline NodoRecurso *insertarRecurso(const string &id,
                                     const string &nombre,
                                     const string &descripcion) {
+// Crea un nuevo recurso y lo inserta al final de la lista doblemente enlazada. Devuelve el puntero al recurso creado o nullptr si ya existe el ID.
     if (buscarRecursoPorId(id) != nullptr) {
         return nullptr;
     }
@@ -43,6 +46,7 @@ inline NodoRecurso *insertarRecurso(const string &id,
 inline void actualizarRecurso(NodoRecurso *recurso,
                               const string &nuevoNombre,
                               const string &nuevaDescripcion) {
+// Actualiza el nombre y/o la descripción de un recurso existente.
     if (recurso == nullptr) {
         return;
     }
@@ -54,6 +58,7 @@ inline void actualizarRecurso(NodoRecurso *recurso,
     }
 }
 
+// Cuenta la cantidad de eventos en los que se utiliza un recurso.
 inline size_t contarEventosRecurso(NodoRecurso *recurso) {
     size_t cantidad = 0;
     EnlaceRecursoEvento *actual = recurso->eventos;
@@ -64,6 +69,7 @@ inline size_t contarEventosRecurso(NodoRecurso *recurso) {
     return cantidad;
 }
 
+// Elimina un recurso por su ID, desvinculando todos sus eventos y liberando memoria.
 inline bool eliminarRecursoPorId(const string &id) {
     NodoRecurso *objetivo = buscarRecursoPorId(id);
     if (objetivo == nullptr) {
@@ -87,6 +93,7 @@ inline bool eliminarRecursoPorId(const string &id) {
     return true;
 }
 
+// Muestra en consola todos los recursos registrados en la lista.
 inline void mostrarRecursos() {
     cout << "\nRecursos registrados:\n";
     NodoRecurso *actual = cabezaRecursos;
@@ -102,4 +109,4 @@ inline void mostrarRecursos() {
     }
 }
 
-#endif
+#endif // RECURSOS_CPP

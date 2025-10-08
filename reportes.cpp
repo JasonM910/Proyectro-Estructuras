@@ -1,4 +1,5 @@
-﻿#ifndef REPORTES_CPP
+﻿// Definición de funciones para la generación de reportes y listados especiales
+#ifndef REPORTES_CPP
 #define REPORTES_CPP
 
 #include <algorithm>
@@ -9,6 +10,7 @@
 
 using namespace std;
 
+// Muestra un listado de participantes ordenados por apellido (ascendente y descendente).
 inline void reporteParticipantesPorApellido() {
     vector<NodoParticipante *> participantes;
     NodoParticipante *actual = cabezaParticipantes;
@@ -42,6 +44,7 @@ inline void reporteParticipantesPorApellido() {
     }
 }
 
+// Muestra todos los eventos organizados por un organizador específico.
 inline void reporteEventosPorOrganizador(NodoOrganizador *organizador) {
     if (organizador == nullptr) {
         cout << "Organizador no encontrado.\n";
@@ -61,6 +64,7 @@ inline void reporteEventosPorOrganizador(NodoOrganizador *organizador) {
     }
 }
 
+// Muestra todos los eventos de una categoría específica, junto con sus organizadores.
 inline void reporteEventosPorCategoria(NodoCategoria *categoria) {
     if (categoria == nullptr) {
         cout << "Categoria no encontrada.\n";
@@ -103,6 +107,7 @@ inline void reporteEventosPorCategoria(NodoCategoria *categoria) {
     }
 }
 
+// Muestra todos los recursos asignados a un evento específico.
 inline void reporteRecursosPorEvento(NodoEvento *evento) {
     if (evento == nullptr) {
         cout << "Evento no encontrado.\n";
@@ -122,6 +127,7 @@ inline void reporteRecursosPorEvento(NodoEvento *evento) {
     }
 }
 
+// Muestra todos los eventos registrados para un lugar específico.
 inline void reporteEventosPorLugar(const string &lugar) {
     NodoEvento *actual = cabezaEventos;
     bool alguno = false;
@@ -137,6 +143,7 @@ inline void reporteEventosPorLugar(const string &lugar) {
     }
 }
 
+// Muestra todos los talleres organizados por un departamento específico.
 inline void reporteTalleresPorDepartamento(const string &departamento) {
     NodoOrganizador *actual = cabezaOrganizadores;
     bool alguno = false;
@@ -162,6 +169,7 @@ inline void reporteTalleresPorDepartamento(const string &departamento) {
     }
 }
 
+// Muestra el historial de inscripciones de participantes a eventos, ordenado por fecha.
 inline void reporteHistorialInscripciones() {
     if (cabezaHistorial == nullptr) {
         cout << "No hay inscripciones registradas.\n";
@@ -177,6 +185,7 @@ inline void reporteHistorialInscripciones() {
     } while (actual != cabezaHistorial);
 }
 
+// Muestra los organizadores que no tienen eventos asignados.
 inline void reporteOrganizadoresSinEventos() {
     NodoOrganizador *actual = cabezaOrganizadores;
     bool alguno = false;
@@ -192,4 +201,4 @@ inline void reporteOrganizadoresSinEventos() {
     }
 }
 
-#endif
+#endif // REPORTES_CPP

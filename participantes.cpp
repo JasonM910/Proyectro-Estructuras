@@ -1,4 +1,5 @@
-﻿#ifndef PARTICIPANTES_CPP
+﻿// Definición de funciones y utilidades para la gestión de participantes
+#ifndef PARTICIPANTES_CPP
 #define PARTICIPANTES_CPP
 
 #include <iostream>
@@ -8,6 +9,7 @@
 
 using namespace std;
 
+// Busca un participante en la lista por su ID. Devuelve un puntero al participante si lo encuentra, o nullptr si no existe.
 inline NodoParticipante *buscarParticipantePorId(const string &id) {
     NodoParticipante *actual = cabezaParticipantes;
     while (actual != nullptr) {
@@ -23,6 +25,7 @@ inline NodoParticipante *insertarParticipante(const string &id,
                                                const string &nombres,
                                                const string &apellidos,
                                                const string &carrera) {
+// Crea un nuevo participante y lo inserta al final de la lista doblemente enlazada. Devuelve el puntero al participante creado o nullptr si ya existe el ID.
     if (buscarParticipantePorId(id) != nullptr) {
         return nullptr;
     }
@@ -46,6 +49,7 @@ inline void actualizarParticipante(NodoParticipante *participante,
                                    const string &nuevosNombres,
                                    const string &nuevosApellidos,
                                    const string &nuevaCarrera) {
+// Actualiza los nombres, apellidos y/o carrera de un participante existente.
     if (participante == nullptr) {
         return;
     }
@@ -60,6 +64,7 @@ inline void actualizarParticipante(NodoParticipante *participante,
     }
 }
 
+// Cuenta la cantidad de eventos en los que participa un participante.
 inline size_t contarEventosParticipante(NodoParticipante *participante) {
     size_t cantidad = 0;
     EnlaceParticipanteEvento *actual = participante->eventos;
@@ -70,6 +75,7 @@ inline size_t contarEventosParticipante(NodoParticipante *participante) {
     return cantidad;
 }
 
+// Elimina un participante por su ID, desvinculando todos sus eventos y eliminando su historial.
 inline bool eliminarParticipantePorId(const string &id) {
     NodoParticipante *objetivo = buscarParticipantePorId(id);
     if (objetivo == nullptr) {
@@ -95,6 +101,7 @@ inline bool eliminarParticipantePorId(const string &id) {
     return true;
 }
 
+// Muestra en consola todos los participantes registrados en la lista.
 inline void mostrarParticipantes() {
     cout << "\nParticipantes registrados:\n";
     NodoParticipante *actual = cabezaParticipantes;
@@ -110,4 +117,4 @@ inline void mostrarParticipantes() {
     }
 }
 
-#endif
+#endif // PARTICIPANTES_CPP

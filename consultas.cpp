@@ -1,4 +1,5 @@
-﻿#ifndef CONSULTAS_CPP
+﻿// Definición de funciones de consulta y reportes estadísticos sobre los datos del sistema
+#ifndef CONSULTAS_CPP
 #define CONSULTAS_CPP
 
 #include <iomanip>
@@ -14,6 +15,7 @@
 
 using namespace std;
 
+// Muestra el/los participante(s) que están inscritos en más eventos.
 inline void consultaParticipanteConMasEventos() {
     NodoParticipante *actual = cabezaParticipantes;
     size_t maximo = 0;
@@ -39,6 +41,7 @@ inline void consultaParticipanteConMasEventos() {
     }
 }
 
+// Muestra el/los organizador(es) que están asignados a más eventos.
 inline void consultaOrganizadorConMasEventos() {
     NodoOrganizador *actual = cabezaOrganizadores;
     size_t maximo = 0;
@@ -64,6 +67,7 @@ inline void consultaOrganizadorConMasEventos() {
     }
 }
 
+// Muestra el/los tipo(s) de evento más frecuente(s) según la cantidad de ocurrencias.
 inline void consultaTipoEventoMasFrecuente() {
     map<string, int> conteos;
     NodoEvento *actual = cabezaEventos;
@@ -89,6 +93,7 @@ inline void consultaTipoEventoMasFrecuente() {
     }
 }
 
+// Muestra la(s) categoría(s) con mayor cantidad de participantes sumando todos sus eventos.
 inline void consultaCategoriaConMayorParticipacion() {
     if (cabezaCategorias == nullptr || cabezaEventos == nullptr) {
         cout << "No hay datos suficientes.\n";
@@ -123,6 +128,7 @@ inline void consultaCategoriaConMayorParticipacion() {
     }
 }
 
+// Muestra el/los recurso(s) que han sido utilizados en más eventos.
 inline void consultaRecursoMasUtilizado() {
     NodoRecurso *actual = cabezaRecursos;
     size_t maximo = 0;
@@ -148,6 +154,7 @@ inline void consultaRecursoMasUtilizado() {
     }
 }
 
+// Muestra el/los lugar(es) donde se han realizado más eventos.
 inline void consultaLugarMasFrecuente() {
     map<string, int> conteos;
     NodoEvento *actual = cabezaEventos;
@@ -182,6 +189,7 @@ inline void consultaLugarMasFrecuente() {
     }
 }
 
+// Muestra el/los evento(s) con mayor cantidad de participantes.
 inline void consultaEventoConMasParticipantes() {
     NodoEvento *actual = cabezaEventos;
     size_t maximo = 0;
@@ -207,6 +215,7 @@ inline void consultaEventoConMasParticipantes() {
     }
 }
 
+// Muestra el/los organizador(es) que han gestionado eventos de más categorías distintas.
 inline void consultaOrganizadorConMasCategorias() {
     NodoOrganizador *actual = cabezaOrganizadores;
     size_t maximo = 0;
@@ -254,6 +263,7 @@ inline void consultaOrganizadorConMasCategorias() {
     }
 }
 
+// Muestra el porcentaje de participantes activos (con al menos un evento) e inactivos.
 inline void consultaPorcentajeParticipacion() {
     size_t total = 0;
     size_t conEventos = 0;
@@ -276,4 +286,4 @@ inline void consultaPorcentajeParticipacion() {
     cout << "Participantes sin eventos: " << porcentajeInactivos << "%\n";
 }
 
-#endif
+#endif // CONSULTAS_CPP

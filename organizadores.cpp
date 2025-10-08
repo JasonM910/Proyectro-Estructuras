@@ -1,4 +1,5 @@
-﻿#ifndef ORGANIZADORES_CPP
+﻿// Definición de funciones y utilidades para la gestión de organizadores
+#ifndef ORGANIZADORES_CPP
 #define ORGANIZADORES_CPP
 
 #include <iostream>
@@ -8,6 +9,7 @@
 
 using namespace std;
 
+// Busca un organizador en la lista por su ID. Devuelve un puntero al organizador si lo encuentra, o nullptr si no existe.
 inline NodoOrganizador *buscarOrganizadorPorId(const string &id) {
     NodoOrganizador *actual = cabezaOrganizadores;
     while (actual != nullptr) {
@@ -22,6 +24,7 @@ inline NodoOrganizador *buscarOrganizadorPorId(const string &id) {
 inline NodoOrganizador *insertarOrganizador(const string &id,
                                             const string &nombre,
                                             const string &departamento) {
+// Crea un nuevo organizador y lo inserta al final de la lista doblemente enlazada. Devuelve el puntero al organizador creado o nullptr si ya existe el ID.
     if (buscarOrganizadorPorId(id) != nullptr) {
         return nullptr;
     }
@@ -43,6 +46,7 @@ inline NodoOrganizador *insertarOrganizador(const string &id,
 inline void actualizarOrganizador(NodoOrganizador *organizador,
                                   const string &nuevoNombre,
                                   const string &nuevoDepartamento) {
+// Actualiza el nombre y/o el departamento de un organizador existente.
     if (organizador == nullptr) {
         return;
     }
@@ -54,6 +58,7 @@ inline void actualizarOrganizador(NodoOrganizador *organizador,
     }
 }
 
+// Cuenta la cantidad de eventos asociados a un organizador.
 inline size_t contarEventosOrganizador(NodoOrganizador *organizador) {
     size_t cantidad = 0;
     EnlaceOrganizadorEvento *actual = organizador->eventos;
@@ -64,6 +69,7 @@ inline size_t contarEventosOrganizador(NodoOrganizador *organizador) {
     return cantidad;
 }
 
+// Elimina un organizador por su ID, desvinculando todos sus eventos y liberando memoria.
 inline bool eliminarOrganizadorPorId(const string &id) {
     NodoOrganizador *objetivo = buscarOrganizadorPorId(id);
     if (objetivo == nullptr) {
@@ -87,6 +93,7 @@ inline bool eliminarOrganizadorPorId(const string &id) {
     return true;
 }
 
+// Muestra en consola todos los organizadores registrados en la lista.
 inline void mostrarOrganizadores() {
     cout << "\nOrganizadores registrados:\n";
     NodoOrganizador *actual = cabezaOrganizadores;
@@ -102,4 +109,4 @@ inline void mostrarOrganizadores() {
     }
 }
 
-#endif
+#endif // ORGANIZADORES_CPP

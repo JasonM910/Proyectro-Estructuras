@@ -1,4 +1,5 @@
-﻿#ifndef RELACIONES_CPP
+﻿// Definición de funciones para gestionar las relaciones entre participantes, organizadores, recursos, eventos e historial
+#ifndef RELACIONES_CPP
 #define RELACIONES_CPP
 
 #include <vector>
@@ -7,6 +8,7 @@
 
 using namespace std;
 
+// Vincula un participante con un evento, creando los enlaces en ambas direcciones.
 inline void vincularParticipanteConEvento(NodoParticipante *participante, NodoEvento *evento) {
     if (participante == nullptr || evento == nullptr) {
         return;
@@ -22,6 +24,7 @@ inline void vincularParticipanteConEvento(NodoParticipante *participante, NodoEv
     evento->participantes = enlaceEvento;
 }
 
+// Desvincula un participante de un evento, eliminando los enlaces en ambas direcciones.
 inline void desvincularParticipanteDeEvento(NodoParticipante *participante, NodoEvento *evento) {
     if (participante == nullptr || evento == nullptr) {
         return;
@@ -59,6 +62,7 @@ inline void desvincularParticipanteDeEvento(NodoParticipante *participante, Nodo
     }
 }
 
+// Verifica si un participante está inscrito en un evento.
 inline bool participanteInscritoEnEvento(NodoParticipante *participante, NodoEvento *evento) {
     EnlaceParticipanteEvento *actual = participante->eventos;
     while (actual != nullptr) {
@@ -70,6 +74,7 @@ inline bool participanteInscritoEnEvento(NodoParticipante *participante, NodoEve
     return false;
 }
 
+// Vincula un organizador con un evento, creando los enlaces en ambas direcciones.
 inline void vincularOrganizadorConEvento(NodoOrganizador *organizador, NodoEvento *evento) {
     if (organizador == nullptr || evento == nullptr) {
         return;
@@ -85,6 +90,7 @@ inline void vincularOrganizadorConEvento(NodoOrganizador *organizador, NodoEvent
     evento->organizadores = enlaceEvento;
 }
 
+// Desvincula un organizador de un evento, eliminando los enlaces en ambas direcciones.
 inline void desvincularOrganizadorDeEvento(NodoOrganizador *organizador, NodoEvento *evento) {
     if (organizador == nullptr || evento == nullptr) {
         return;
@@ -122,6 +128,7 @@ inline void desvincularOrganizadorDeEvento(NodoOrganizador *organizador, NodoEve
     }
 }
 
+// Verifica si un organizador está asignado a un evento.
 inline bool organizadorAsignadoEnEvento(NodoOrganizador *organizador, NodoEvento *evento) {
     EnlaceOrganizadorEvento *actual = organizador->eventos;
     while (actual != nullptr) {
@@ -133,6 +140,7 @@ inline bool organizadorAsignadoEnEvento(NodoOrganizador *organizador, NodoEvento
     return false;
 }
 
+// Vincula un recurso con un evento, creando los enlaces en ambas direcciones.
 inline void vincularRecursoConEvento(NodoRecurso *recurso, NodoEvento *evento) {
     if (recurso == nullptr || evento == nullptr) {
         return;
@@ -148,6 +156,7 @@ inline void vincularRecursoConEvento(NodoRecurso *recurso, NodoEvento *evento) {
     evento->recursos = enlaceEvento;
 }
 
+// Desvincula un recurso de un evento, eliminando los enlaces en ambas direcciones.
 inline void desvincularRecursoDeEvento(NodoRecurso *recurso, NodoEvento *evento) {
     if (recurso == nullptr || evento == nullptr) {
         return;
@@ -185,6 +194,7 @@ inline void desvincularRecursoDeEvento(NodoRecurso *recurso, NodoEvento *evento)
     }
 }
 
+// Verifica si un recurso está asignado a un evento.
 inline bool recursoAsignadoEnEvento(NodoRecurso *recurso, NodoEvento *evento) {
     EnlaceRecursoEvento *actual = recurso->eventos;
     while (actual != nullptr) {
@@ -200,6 +210,7 @@ inline void registrarHistorial(const string &id,
                                const Fecha &fecha,
                                NodoParticipante *participante,
                                NodoEvento *evento) {
+// Registra una nueva entrada en el historial de inscripciones o acciones, manteniendo el orden por fecha.
     auto *nuevo = new NodoHistorial();
     nuevo->id = id;
     nuevo->fecha = fecha;
@@ -236,6 +247,7 @@ inline void registrarHistorial(const string &id,
     }
 }
 
+// Elimina un nodo específico del historial, ajustando la lista circular.
 inline void eliminarNodoHistorial(NodoHistorial *objetivo) {
     if (cabezaHistorial == nullptr || objetivo == nullptr) {
         return;
@@ -267,6 +279,7 @@ inline void eliminarNodoHistorial(NodoHistorial *objetivo) {
     } while (actual != cabezaHistorial);
 }
 
+// Elimina todas las entradas del historial asociadas a un evento.
 inline void eliminarHistorialPorEvento(NodoEvento *evento) {
     if (cabezaHistorial == nullptr || evento == nullptr) {
         return;
@@ -284,6 +297,7 @@ inline void eliminarHistorialPorEvento(NodoEvento *evento) {
     }
 }
 
+// Elimina todas las entradas del historial asociadas a un participante.
 inline void eliminarHistorialPorParticipante(NodoParticipante *participante) {
     if (cabezaHistorial == nullptr || participante == nullptr) {
         return;
@@ -301,6 +315,7 @@ inline void eliminarHistorialPorParticipante(NodoParticipante *participante) {
     }
 }
 
+// Busca una entrada del historial por su ID. Devuelve un puntero si la encuentra, o nullptr si no existe.
 inline NodoHistorial *buscarHistorialPorId(const string &id) {
     if (cabezaHistorial == nullptr) {
         return nullptr;
@@ -315,4 +330,4 @@ inline NodoHistorial *buscarHistorialPorId(const string &id) {
     return nullptr;
 }
 
-#endif
+#endif // RELACIONES_CPP

@@ -1,4 +1,5 @@
-﻿#ifndef UTILIDADES_CPP
+﻿// Funciones utilitarias para entrada y validación de datos en consola
+#ifndef UTILIDADES_CPP
 #define UTILIDADES_CPP
 
 #include <iostream>
@@ -9,6 +10,7 @@
 
 using namespace std;
 
+// Lee un número entero desde la entrada estándar, validando la entrada.
 inline int leerEntero() {
     int valor;
     while (!(cin >> valor)) {
@@ -20,6 +22,7 @@ inline int leerEntero() {
     return valor;
 }
 
+// Lee una línea de texto desde la entrada estándar, mostrando un mensaje previo.
 inline string leerCadena(const string &mensaje) {
     cout << mensaje;
     string texto;
@@ -27,6 +30,7 @@ inline string leerCadena(const string &mensaje) {
     return texto;
 }
 
+// Lee una fecha desde la entrada estándar, validando el formato AAAA-MM-DD.
 inline Fecha leerFecha(const string &mensaje) {
     while (true) {
         string texto = leerCadena(mensaje);
@@ -38,6 +42,7 @@ inline Fecha leerFecha(const string &mensaje) {
     }
 }
 
+// Lee una opción numérica dentro de un rango específico.
 inline int leerOpcion(int minimo, int maximo) {
     while (true) {
         cout << "Seleccione una opcion: ";
@@ -50,9 +55,10 @@ inline int leerOpcion(int minimo, int maximo) {
     }
 }
 
+// Pausa la ejecución hasta que el usuario presione ENTER.
 inline void pausar() {
     cout << "\nPresione ENTER para continuar...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-#endif
+#endif // UTILIDADES_CPP
